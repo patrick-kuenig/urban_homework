@@ -1,5 +1,5 @@
 def average_grade(grades, students):
-    print(dict(map(lambda x, y: (x, round(sum(y)/len(y), 1), ), sorted(students), grades)))
+    print(dict(map(lambda x, y: (x, round(sum(y)/len(y), 1)), sorted(students), grades)))
     return
 
 
