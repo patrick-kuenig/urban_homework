@@ -117,7 +117,7 @@ num2 = 43
 if num1 > num2:
     print()
 num3 = 9
-if O > 0:
+if num3 > 0:
     print()
 
 # lowercase (слово в нижнем регистре)
