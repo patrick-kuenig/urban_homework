@@ -15,6 +15,13 @@ def password_game(key):
     else:
         return "A number between 3 and 20 has to be used."
 
+
 if __name__ == "__main__":
-    input_ = int(input("Which number do you need the password for?\n"))
-    print(f"Password for {input_}:", password_game(input_))
+    try:
+        input_ = int(input("Which number do you need the password for?\n"))
+        print(f"Password for {input_}:", password_game(input_))
+
+    except ValueError:
+        print("You entered an invalid value.")
+        input_ = int(input("Which number do you need the password for?\n"))
+        print(f"Password for {input_}:", password_game(input_))
