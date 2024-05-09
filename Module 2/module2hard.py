@@ -1,5 +1,3 @@
-import random
-
 def password_game(key):
     if 2 < key < 21:
         keys = []
@@ -18,5 +16,5 @@ def password_game(key):
         return "A number between 3 and 20 has to be used."
 
 if __name__ == "__main__":
-    input_ = randint(3, 20)
-    print(password_game()
+    input_ = int(input("Which number do you need the password for?\n"))
+    print(f"Password for {input_}:", password_game(input_))
