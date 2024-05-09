@@ -23,5 +23,5 @@ if __name__ == "__main__":
 
     except ValueError:
         print("You entered an invalid value.")
-        input_ = int(input("Which number do you need the password for?\n"))
+        input_ = int(input("Please try again using a valid number between 3 and 20...\n"))
         print(f"Password for {input_}:", password_game(input_))
