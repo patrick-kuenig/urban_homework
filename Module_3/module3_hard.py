@@ -5,16 +5,13 @@ def calculate_structure_sum(*args):
             for key, value in arg.items():
                 result += calculate_structure_sum(key)
                 result += calculate_structure_sum(value)
-        elif isinstance(arg, list) and len(arg) != 0:
-            result += calculate_structure_sum(*arg)
-        elif isinstance(arg, tuple) and len(arg) != 0:
-            result += calculate_structure_sum(*arg)
-        elif isinstance(arg, set) and len(arg) != 0:
+        elif isinstance(arg, (list, tuple, set)) and len(arg) != 0:
             result += calculate_structure_sum(*arg)
         elif isinstance(arg, int):
             result += arg
         elif isinstance(arg, str):
             result += len(arg)
+
     return result
 
 
