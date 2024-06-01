@@ -11,4 +11,4 @@ class House:
 
 
 villa = House('Седьмое небо', 20)
-villa.go_to(21)
+villa.go_to(21) # Такого этажа не существует
