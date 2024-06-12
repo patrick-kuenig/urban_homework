@@ -62,7 +62,7 @@ class UrTube:
                         print(i)
                         sleep(1)
                     print("Конец видео.")
-
+                    break
 
 
 class User:
@@ -101,5 +101,7 @@ print(ur.current_user)
 ur.log_in('vasya_pupkin', 'lolkekcheburek')
 ur.watch_video('Для чего девушкам парень программист?')
 ur.log_out()
+print(ur.current_user)
 ur.log_in('urban_pythonist', 'iScX4vIJClb9YQavjAgF')
+ur.watch_video('Для чего девушкам парень программист')
 ur.watch_video('Для чего девушкам парень программист?')
