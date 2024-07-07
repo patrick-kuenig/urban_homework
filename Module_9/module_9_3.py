@@ -8,6 +8,7 @@ first_result = (abs(len(first_word) - len(second_word)) for (first_word, second_
 # [False, False, False]
 # В задании запрашивается "результат сравнения строк", не сразу понятно, что надо сравнить именно длину строк
 second_result = (len(first[index]) == len(second[index]) for index in range(max(len(first), len(second))))
+# тут как в описании задания: [False, False, True]
 
 print(list(first_result))
 print(list(second_result))
