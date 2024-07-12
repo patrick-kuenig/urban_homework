@@ -1,5 +1,5 @@
 def is_prime(func):
-    def checker(*args):
+    def wrapper(*args):
         result = func(*args)
         for i in range(2, result // 2 + 1):
             if result % i == 0:
@@ -8,7 +8,7 @@ def is_prime(func):
         print("Простое")
         return result
 
-    return checker
+    return wrapper
 
 
 @is_prime
