@@ -3,7 +3,7 @@ import multiprocessing
 
 class WarehouseManager(object):
     def __init__(self):
-        self.data = dict()
+        self.data = multiprocessing.Manager().dict()
 
     def process_request(self, request):
         if request[1] == 'receipt':
