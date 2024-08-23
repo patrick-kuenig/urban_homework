@@ -3,10 +3,12 @@ import runner_and_tournament
 
 
 class TournamentTest(unittest.TestCase):
+    is_frozen = True
     @classmethod
     def setUpClass(self):
         global all_results
         all_results = []
+
 
     def setUp(self):
         global runner1

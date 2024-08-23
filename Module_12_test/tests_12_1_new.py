@@ -3,17 +3,21 @@ import runner
 
 
 class RunnerTest(unittest.TestCase):
+    is_frozen = False
+
     def test_walk(self):
         test_runner = runner.Runner('Patrick')
         for i in range(10):
             test_runner.walk()
         self.assertEqual(test_runner.distance, 50)
 
+
     def test_run(self):
         test_runner = runner.Runner('Patrick')
         for i in range(10):
             test_runner.run()
         self.assertEqual(test_runner.distance, 100)
+
 
     def test_challenge(self):
         test_runner1 = runner.Runner('Patrick')
