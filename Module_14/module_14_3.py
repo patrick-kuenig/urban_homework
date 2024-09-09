@@ -22,7 +22,7 @@ buy3 = InlineKeyboardButton(text='Product3', callback_data='product_buying')
 buy4 = InlineKeyboardButton(text='Product4', callback_data='product_buying')
 buy_menu.add(buy1, buy2, buy3, buy4)
 
-api = "7321408181:AAGaGNvPrEGJZO0y9rXwmuiMIDVDlj4lDSo"
+api = ""
 bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
