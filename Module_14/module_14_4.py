@@ -59,12 +59,10 @@ async def set_age(call):
 async def get_buying_list(message):
     all_products = get_all_products()
     directory_in_str = './pictures'
-    directory = os.fsencode(directory_in_str)
-    for product, picture in zip(all_products, os.fsencode(directory)):
-        await message.answer(f'Название: {product[1]} | Описание: {product[2]} | Цена: {product[3]}', f'{product[0]}')
-        filename = os.fsdecode(picture)
-        with open(filename, 'rb') as img:
+    for product, picture in zip(all_products, os.listdir(directory_in_str)):
+        with open(directory_in_str + '/' + picture, 'rb') as img:
             await message.answer_photo(img)
+        await message.answer(f'Название: {product[1]} | Описание: {product[2]} | Цена: {product[3]}')
     await message.answer('Выберите продукт для покупки:', reply_markup=buy_menu)
 
 @dp.callback_query_handler(text='product_buying')

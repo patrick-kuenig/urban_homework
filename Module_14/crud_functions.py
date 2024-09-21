@@ -14,13 +14,13 @@ def initiate_db():
     )
     ''')
 
-    # for i in range(5):
-    #     cursor.execute("""
-    #     INSERT INTO Products (title, description, price) VALUES (?, ?, ?)
-    #     """, (f'Product {i}', f'Product {i} is the greatest product ever', i*30))
-    #
-    # connection.commit()
-    # connection.close()
+    for i in range(1, 6):
+        cursor.execute("""
+        INSERT INTO Products (title, description, price) VALUES (?, ?, ?)
+        """, (f'Product {i}', f'Product {i} is the greatest product ever', i*30))
+
+    connection.commit()
+    connection.close()
 
 def get_all_products():
     connection = sqlite3.connect('database.db')
