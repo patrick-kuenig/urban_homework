@@ -3,12 +3,14 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from crud_functions import *
 
 kb_normal = ReplyKeyboardMarkup(resize_keyboard=True)
 button_calories = KeyboardButton(text='Рассчитать')
 button_information = KeyboardButton(text='Информация')
 button_buy = KeyboardButton(text='Купить')
-kb_normal.add(button_calories, button_information, button_buy)
+button_register = KeyboardButton(text='Регистрация')
+kb_normal.add(button_calories, button_information, button_buy, button_register)
 
 kb_inline = InlineKeyboardMarkup()
 button1 = InlineKeyboardButton(text='Рассчитать норму калорий', callback_data='calories')
@@ -22,7 +24,7 @@ buy3 = InlineKeyboardButton(text='Product3', callback_data='product_buying')
 buy4 = InlineKeyboardButton(text='Product4', callback_data='product_buying')
 buy_menu.add(buy1, buy2, buy3, buy4)
 
-api = ""
+api = "7321408181:AAGaGNvPrEGJZO0y9rXwmuiMIDVDlj4lDSo"
 bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
@@ -31,6 +33,13 @@ class UserState(StatesGroup):
     age = State()
     height = State()
     weight = State()
+
+
+class RegistrationState(StatesGroup):
+    username = State()
+    email = State()
+    age = State()
+    balance = State()
 
 
 @dp.message_handler(commands=['start'])
@@ -53,6 +62,7 @@ async def set_age(call):
     await call.answer('Введите свой возраст:')
     await UserState.age.set()
 
+
 @dp.message_handler(text=['Купить'])
 async def get_buying_list(message):
     for i in range(1, 5):
@@ -61,10 +71,44 @@ async def get_buying_list(message):
         await message.answer(f'Название: Product{i} | Описание: описание {i} | Цена: {i * 100}')
     await message.answer('Выберите продукт для покупки:', reply_markup=buy_menu)
 
+
 @dp.callback_query_handler(text='product_buying')
 async def send_confirm_message(call):
     await call.message.answer("Вы успешно приобрели продукт!")
     await call.answer()
+
+
+@dp.message_handler(text=['Регистрация'])
+async def sign_up(message):
+    await message.answer("Введите имя пользователя (только латинский алфавит):")
+    await RegistrationState.username.set()
+
+
+@dp.message_handler(state=RegistrationState.username)
+async def set_username(message, state):
+    if not is_included(message.text):
+        await state.update_data(username=message.text)
+        await message.answer("Введите свой email:")
+        await RegistrationState.email.set()
+    else:
+        await message.text("Пользователь существует, введите другое имя")
+        await RegistrationState.username.set()
+
+
+@dp.message_handler(state=RegistrationState.email)
+async def set_email(message, state):
+    await state.update_data(email=message.text)
+    await message.answer("Введите свой возраст:")
+    await RegistrationState.age.set()
+
+
+@dp.message_handler(state=RegistrationState.age)
+async def set_age(message, state):
+    await state.update_data(age=message.text)
+    new_user = await state.get_data()
+    add_user(new_user['username'], new_user['email'], new_user['age'])
+    await message.answer("Спасибо, ты вошел в матрицу!")
+    await state.finish()
 
 
 @dp.message_handler(text=['Информация'])
@@ -92,6 +136,7 @@ async def send_calories(message, state):
     data = await state.get_data()
     result = int(data['age']) * 5 + int(data['weight']) * 10 + int(data['height']) * 6.25 + 5
     await message.answer(f'Daily calorie intake: {result}')
+    await state.finish()
 
 
 @dp.message_handler()
