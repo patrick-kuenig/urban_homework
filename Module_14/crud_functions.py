@@ -60,7 +60,6 @@ def is_included(username):
     users = cursor.execute("""
     SELECT username FROM Users
     """).fetchall()
-    print(users)
     for user in users:
         if username == user[0]:
             return True
