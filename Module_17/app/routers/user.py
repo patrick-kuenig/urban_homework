@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from typing import Annotated
 from models.user import User
+from models.task import Task
 from schemas import CreateUser, UpdateUser
 from sqlalchemy import insert, select, update, delete
 from slugify import slugify
@@ -71,9 +72,15 @@ async def delete_user(db: Annotated[Session, Depends(get_db)], user_id: int):
         )
 
     db.execute(delete(User).where(User.id == user_id))
+    db.execute(delete(Task).where(Task.user_id == user_id))
     db.commit()
 
     return {
         'status_code': status.HTTP_200_OK,
         'transaction': 'User update was successful'
     }
+
+@router.get('/user_id/tasks')
+async def tasks_by_user_id(db: Annotated[Session, Depends(get_db)], user_id: int):
+    tasks = db.scalars(select(Task).where(Task.user_id == user_id))
+    return tasks
