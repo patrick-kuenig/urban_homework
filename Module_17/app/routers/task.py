@@ -31,12 +31,14 @@ async def task_by_id(db: Annotated[Session, Depends(get_db)], task_id: int):
 
 @router.post('/create')
 async def create_task(db: Annotated[Session, Depends(get_db)], create_task: CreateTask, user_id: int):
-    check_user_id = db.scalar(select(User).where(User.id == user_id))
+    check_user_id = db.scalar(select(User.id).where(User.id == user_id))
     if check_user_id is not None:
         db.execute(insert(Task).values(title=create_task.title,
                                        content=create_task.content,
                                        priority=create_task.priority,
+                                       slug=slugify(create_task.title),
                                        user_id=user_id))
+        db.commit()
         return {
             'status_code': status.HTTP_201_CREATED,
             'transaction': 'Successful'
@@ -58,11 +60,11 @@ async def update_task(db: Annotated[Session, Depends(get_db)], task_id: int, upd
         )
 
     db.execute(update(Task).where(Task.id == task_id).values(
-        firstname=update_task.firstname,
-        lastname=update_task.lastname,
-        age=update_task.age
+        firstname=update_task.title,
+        lastname=update_task.content,
+        age=update_task.priority,
+        slug=slugify(update_task.title)
     ))
-
     db.commit()
     return {
         'status_code': status.HTTP_200_OK,
